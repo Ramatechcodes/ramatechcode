@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramatechcode Lab</title>
+    
+</head>
+<body>
+<style>
+  body{
+    margin:0;
+    font-family:Arial;
+    background:#0f172a;
+    color:white;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:80px 20px;
+}
+
+.hero h1{
+    font-size:55px;
+    color:#38bdf8;
+}
+
+.hero p{
+    max-width:700px;
+    margin:auto;
+    line-height:1.8;
+}
+
+/* BUTTON */
+button{
+    padding:15px 30px;
+    border:none;
+    background:#38bdf8;
+    color:white;
+    font-size:18px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0ea5e9;
+    transform:scale(1.05);
+}
+
+/* COURSES */
+.courses{
+    padding:60px 20px;
+    text-align:center;
+}
+
+.courses h2{
+    font-size:35px;
+    margin-bottom:30px;
+    color:#38bdf8;
+}
+
+.course-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+    max-width:1000px;
+    margin:auto;
+}
+
+.card{
+    background:#1e293b;
+    padding:15px;
+    border-radius:15px;
+    transition:0.4s;
+    box-shadow:0 0 0 transparent;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.03);
+    box-shadow:0 10px 30px rgba(56,189,248,0.3);
+}
+
+.card img{
+    width:100%;
+    border-radius:10px;
+    height:140px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin-top:10px;
+}
+
+/* FORM */
+.form-section{
+    display:flex;
+    justify-content:center;
+    padding:40px;
+}
+
+form{
+    width:400px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+.logo{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    margin-bottom:15px;
+    animation: spinIn 1.5s ease;
+    display: flex;
+}
+
+@keyframes spinIn{
+    from{
+        transform: rotate(-180deg) scale(0);
+        opacity:0;
+    }
+    to{
+        transform: rotate(0) scale(1);
+        opacity:1;
+    }
+}
+.hero, .courses, .form-section{
+    animation: fadeUp 1.2s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+input, select{
+    padding:15px;
+    border:none;
+    border-radius:8px;
+}
+.features{
+    text-align:center;
+    padding:60px 20px;
+}
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+.feature-grid div{
+    background:#1e293b;
+    padding:20px;
+    border-radius:10px;
+    transition:0.3s;
+}
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 30px;
+    background:#0f172a;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    border-bottom:1px solid #1e293b;
+}
+
+/* LEFT SIDE */
+.left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.left h2{
+    color:#38bdf8;
+    font-size:20px;
+}
+
+/* LOGO SMALLER FOR NAVBAR */
+.navbar .logo{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    animation:none; /* remove spin in navbar */
+}
+
+/* CTA BUTTON (RIGHT SIDE) */
+.cta{
+    padding:10px 20px;
+    border:none;
+    background:#38bdf8;
+    color:white;
+    font-size:16px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.cta:hover{
+    background:#0ea5e9;
+    transform:scale(1.05);
+}
+.hero-text{
+    text-align:center;
+    padding:60px 20px;
+    max-width:900px;
+    margin:auto;
+}
+
+.hero-text h1{
+    font-size:48px;
+    color:#38bdf8;
+    margin-bottom:20px;
+}
+
+.lead{
+    font-size:18px;
+    line-height:1.8;
+    color:#e2e8f0;
+    margin-bottom:20px;
+}
+
+.sublead{
+    font-size:16px;
+    line-height:1.7;
+    color:#94a3b8;
+    margin-bottom:30px;
+}
+
+.highlight-box{
+    background:linear-gradient(135deg,#1e293b,#0f172a);
+    padding:25px;
+    border-radius:15px;
+    border:1px solid #334155;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.highlight-box h2{
+    color:#38bdf8;
+    margin-bottom:10px;
+}
+
+.highlight-box p{
+    color:#e2e8f0;
+    line-height:1.7;
+}
+.feature-grid div:hover{
+    background:#38bdf8;
+    color:black;
+}
+.slider{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+.footer{
+    background:#0b1220;
+    padding:40px 20px;
+    margin-top:60px;
+    border-top:1px solid #1e293b;
+}
+
+.footer-container{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    max-width:1000px;
+    margin:auto;
+    gap:20px;
+}
+
+.footer-brand h2{
+    color:#38bdf8;
+    margin-bottom:10px;
+}
+
+.footer-brand p{
+    color:#94a3b8;
+    max-width:300px;
+    line-height:1.6;
+}
+
+.footer-links h3{
+    color:#38bdf8;
+    margin-bottom:10px;
+}
+
+.footer-links a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    margin-bottom:8px;
+    transition:0.3s;
+}
+
+.footer-links a:hover{
+    color:#38bdf8;
+    transform:translateX(5px);
+}
+
+.footer-bottom{
+    text-align:center;
+    margin-top:30px;
+    color:#64748b;
+    font-size:14px;
+}
+.slider img{
+    width:100%;
+    height:500px;
+    object-fit:cover;
+    transition:1s;
+}
+</style>
+    <header class="navbar">
+
+    <div class="left">
+        <img src="images/logo.png" class="logo">
+        <h2>Ramatechcode Lab</h2>
+    </div>
+
+    <button class="cta" onclick="scrollToForm()">
+        Get Started
+    </button>
+
+</header>
+        <marquee behavior="" direction=""><h1>Welcome to Ramatechcode Lab technology Nig Ltd</h1></marquee>
+           <section class="slider">
+    <img id="sliderImage" src="images/banner1.jpg">
+
+
+        <section class="hero-text">
+
+    <h1>Welcome to Ramatechcode Lab</h1>
+
+    <p class="lead">
+        Ramatechcode Lab is a modern technology training institute focused on building
+        world-class developers and innovators in Web Development, Full Stack Engineering,
+        Mobile App Development, AI Automation, Robotics Programming, Cloud Computing,
+        Cybersecurity, UI/UX Design, and Python Development.
+    </p>
+
+    <p class="sublead">
+        Our mission is to equip beginners and aspiring developers with real-world skills
+        through practical, project-based learning that prepares you for global tech opportunities.
+    </p>
+
+    <div class="highlight-box">
+
+        <h2>Become a Tech Professional in 3 Months</h2>
+
+        <p>
+            Do you aspire to become a Software Engineer, Web Developer, App Developer,
+            or AI Automation Engineer?
+        </p>
+
+        <p>
+            Join our <b>FREE 3 Months Intensive Training</b> (Physical + Virtual)
+            and start building real-world projects from day one.
+        </p>
+
+    </div>
+
+</section>
+<section class="courses">
+
+    <h2>Our Tech Programs</h2>
+
+    <div class="course-grid">
+
+        <div class="card">
+            <img src="images/web dev.png">
+            <h3>Web Development</h3>
+        </div>
+
+        <div class="card">
+            <img src="images/AI c.webp">
+            <h3>AI Automation</h3>
+        </div>
+
+        <div class="card">
+            <img src="images/fullstack.avif">
+            <h3>Full Stack Development</h3>
+        </div>
+
+        <div class="card">
+            <img src="images/robotics3.avif">
+            <h3>Robotics Programming</h3>
+        </div>
+
+        <div class="card">
+            <img src="images/app deve.webp">
+            <h3>Mobile App Development</h3>
+        </div>
+ <div class="card">
+            <img src="images/cyber.jpg">
+            <h3>Cybersecurity</h3>
+        </div>
+         <div class="card">
+            <img src="images/cloud.png">
+            <h3> Cloud Computing</h3>
+        </div>
+         <div class="card">
+            <img src="images/python.jpg">
+            <h3>Python Development</h3>
+        </div>
+    </div>
+
+</section>
+<section class="features">
+
+    <h2>Why Choose Ramatechcode Lab?</h2>
+
+    <div class="feature-grid">
+
+        <div>🚀 Real World Projects</div>
+        <div>👨‍🏫 Expert Mentors</div>
+        <div>💻 Hands-on Coding</div>
+        <div>📱 Physical + Virtual Classes</div>
+        <div>🎯 Job Ready Skills</div>
+        <div>📜 Certificate on Completion</div>
+
+    </div>
+
+</section>
+       
+    </section>
+
+    <section class="form-section">
+
+        <form id="registerForm">
+
+            <input type="text" placeholder="Full Name" id="fullname" required>
+
+            <input type="date" id="dob" required>
+
+            <input type="text" placeholder="Nationality" id="nationality" required>
+
+            <input type="text" placeholder="Full Address" id="address" required>
+
+            <input type="text" placeholder="City" id="city" required>
+
+            <input type="email" placeholder="Email" id="email" required>
+
+            <input type="tel" placeholder="Phone Number" id="phone" required>
+
+            <select id="interest" required>
+                <option value="">Interest of Class</option>
+                <option>Web Development</option>
+                <option>Full Stack Development</option>
+                <option>AI Automation</option>
+                <option>Robotics Programming</option>
+                <option>Mobile App Development</option>
+            </select>
+
+            <select id="classOption" required>
+                <option value="">Class Option</option>
+                <option>Virtual</option>
+                <option>Physical</option>
+            </select>
+
+            <select id="gender" required>
+                <option value="">Gender</option>
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+
+            <button type="submit">
+                Register Now
+            </button>
+
+        </form>
+
+    </section>
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+            <h2>Ramatechcode Lab</h2>
+            <p>Building future developers through practical tech education.</p>
+        </div>
+
+        <div class="footer-links">
+
+            <h3>Contact & Socials</h3>
+
+            <a href="https://wa.me/2349034689656" target="_blank">WhatsApp</a>
+            <a href="https://instagram.com/RAMATECHCODE" target="_blank">Instagram</a>
+            <a href="https://tiktok.com/@nigerianelonmusk1" target="_blank">TikTok</a>
+            <a href="https://www.facebook.com/share/1BS9aeCuPm/?mibextid=wwXIfr" target="_blank">Facebook</a>
+            <a href="https://github.com/Ramatechcodes/" target="_blank">GitHub</a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Ramatechcode Lab. All rights reserved.</p>
+    </div>
+
+</footer>
+   <script>
+    function scrollToForm() {
+    document.querySelector(".form-section")
+    .scrollIntoView({
+        behavior: "smooth"
+    });
+}
+const images = [
+    "images/banner1.jpg",
+    "images/banner5.jpg",
+    "images/banner3.jpg",
+   
+    "images/banner9.jpg"
+];
+
+let index = 0;
+
+setInterval(() => {
+    index++;
+    if(index >= images.length) index = 0;
+    document.getElementById("sliderImage").src = images[index];
+}, 3000);
+document.getElementById("registerForm")
+.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const data = {
+        fullname: document.getElementById("fullname").value,
+        dob: document.getElementById("dob").value,
+        nationality: document.getElementById("nationality").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        interest: document.getElementById("interest").value,
+        classOption: document.getElementById("classOption").value,
+        gender: document.getElementById("gender").value
+    };
+
+    const response = await fetch("/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    alert(result.message || result.error);
+});
+   </script>
+
+</body>
+</html>

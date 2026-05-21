@@ -196,14 +196,86 @@ input, select{
 }
 
 /* BRAND NAME */
+/* BRAND NAME */
 .left h2{
     color:#38bdf8;
-    font-size:38px;
+    font-size:52px;
     font-weight:900;
     margin:0;
     letter-spacing:1px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.left{
+    background:linear-gradient(135deg,#38bdf8,#ffffff);
+    background-clip:text;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    letter-spacing:1px;
+    text-transform:uppercase;
 }
 
+
+/* SUBTITLE */
+.brand-text p{
+    margin:4px 0 0;
+    color:#94a3b8;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width:1024px){
+
+    .brand-text h2{
+        font-size:32px;
+    }
+
+}
+
+@media (max-width:768px){
+
+    .logo-wrap{
+        width:52px;
+        height:52px;
+    }
+
+    .brand-text h2{
+        font-size:24px;
+    }
+
+    .brand-text p{
+        font-size:11px;
+        letter-spacing:1px;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .left{
+        gap:10px;
+    }
+
+    .logo-wrap{
+        width:45px;
+        height:45px;
+    }
+
+    .brand-text h2{
+        font-size:18px;
+    }
+
+    .brand-text p{
+        font-size:9px;
+    }
+
+}
 /* BUTTON */
 .cta{
     padding:12px 24px;
@@ -354,16 +426,53 @@ input, select{
         align-items:center;
         gap:10px;
     }
+    
+
+    
+
+    marquee{
+        display: none;
+    }
+}
+@media (max-width:1024px){
 
     .left h2{
         font-size:40px;
         font-weight:900;
     }
 
-    
-    marquee{
-        display:none;
+}
+@media (max-width:768px){
+
+    .left h2{
+        font-size:28px;
+        font-weight:900;
+        
     }
+     .navbar .logo{
+        width:45px;
+        height:45px;
+     }
+}
+@media (max-width:480px){
+
+    .left h2{
+        font-size:22px;
+        font-weight:900;
+    }
+
+}
+@media (max-width:360px){
+
+    .navbar .logo{
+        width:38px;
+        height:38px;
+    }
+
+    .left h2{
+        font-size:18px;
+    }
+
 }
 @media (max-width: 768px) {
 
@@ -408,7 +517,6 @@ input, select{
     }
 
     
-
     .hero-text h1 {
         font-size: 26px;
     }
@@ -433,16 +541,23 @@ input, select{
         width: 100%;
     }
 }
+.left{
+    min-width:0;
+}
 </style>
     <header class="navbar">
+<div class="left">
 
-    <div class="left">
+    <div class="logo-wrap">
         <img src="images/logo.png" class="logo">
-        
-        <h2 >Ramatechcode Lab</h2>
-          <marquee behavior="" direction=""><h1>Welcome to Ramatechcode Lab technology Nig Ltd</h1></marquee>
     </div>
 
+    <div class="brand-text">
+        <h2>Ramatechcode Lab</h2>
+        <p>Technology Training Center</p>
+    </div>
+
+</div>
   
 </header>
       
@@ -554,7 +669,7 @@ input, select{
 
 </section>
        
-    </section>
+    
 
     <section class="form-section">
 

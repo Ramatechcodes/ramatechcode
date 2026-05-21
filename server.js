@@ -21,14 +21,18 @@ app.post("/register", async (req, res) => {
         await db.collection("students").add(data);
 
         // Send email
-      const transporter = nodemailer.createTransport({
+     const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
     port: 587,
     secure: false,
+    requireTLS: true,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD
-    }
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000
 });
        await transporter.sendMail({
     from: `"Ramatechcode Lab" <${process.env.EMAIL}>`,

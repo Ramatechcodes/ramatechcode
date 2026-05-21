@@ -21,13 +21,16 @@ app.post("/register", async (req, res) => {
         await db.collection("students").add(data);
 
         // Send email
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.PASSWORD
-            }
-        });
+      const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    family: 4,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+});
 
        await transporter.sendMail({
     from: process.env.EMAIL,
@@ -83,7 +86,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log("Server running on port", PORT);

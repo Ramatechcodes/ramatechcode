@@ -30,9 +30,7 @@ app.post("/register", async (req, res) => {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD
     },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000
+   
 });
        await transporter.sendMail({
     from: `"Ramatechcode Lab" <${process.env.EMAIL}>`,

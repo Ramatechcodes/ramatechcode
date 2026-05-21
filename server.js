@@ -22,16 +22,14 @@ app.post("/register", async (req, res) => {
 
         // Send email
       const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    family: 4,
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD
     }
 });
-
        await transporter.sendMail({
     from: process.env.EMAIL,
     to: data.email,

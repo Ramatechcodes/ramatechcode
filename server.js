@@ -23,7 +23,7 @@ app.post("/register", async (req, res) => {
         // Send email
      const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
-    port: 465,
+    port: 2525,
     secure: false,
     requireTLS: true,
     auth: {

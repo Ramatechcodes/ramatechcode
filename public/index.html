@@ -320,6 +320,96 @@ input, select{
     object-fit:cover;
     transition:1s;
 }
+    /* =========================
+   MOBILE RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 1024px) {
+    .hero h1, .hero-text h1 {
+        font-size: 40px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .left {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .hero-text h1 {
+        font-size: 32px;
+    }
+
+    .hero, .hero-text {
+        padding: 40px 15px;
+    }
+
+    .course-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    form {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .slider img {
+        height: 250px;
+    }
+
+    .hero h1 {
+        font-size: 35px;
+    }
+
+    .highlight-box {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .navbar h2 {
+        font-size: 20px;
+    }
+
+    .cta {
+        width: 100%;
+    }
+
+    .hero-text h1 {
+        font-size: 26px;
+    }
+
+    .hero p, .lead, .sublead {
+        font-size: 14px;
+    }
+
+    .card img {
+        height: 120px;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    button {
+        width: 100%;
+    }
+}
 </style>
     <header class="navbar">
 

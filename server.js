@@ -33,7 +33,7 @@ app.post("/register", async (req, res) => {
    
 });
        await transporter.sendMail({
-    from: `"Ramatechcode Lab" <${process.env.EMAIL}>`,
+    from: `"Ramatechcode" <${process.env.EMAIL}>`,
     to: data.email,
     subject: "Welcome to Ramatechcode Lab 🚀",
     html: `

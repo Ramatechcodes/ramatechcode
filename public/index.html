@@ -337,7 +337,7 @@ input, select{
            <section class="slider">
     <img id="sliderImage" src="images/banner1.jpg">
 
-
+</section>
         <section class="hero-text">
 
     <h1>Welcome to Ramatechcode Lab</h1>
@@ -549,17 +549,26 @@ document.getElementById("registerForm")
         gender: document.getElementById("gender").value
     };
 
-    const response = await fetch("/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
+    try {
 
-    const result = await response.json();
+        const response = await fetch("/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
 
-    alert(result.message || result.error);
+        const result = await response.json();
+
+        alert(result.message || result.error);
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert("Registration failed");
+    }
 });
    </script>
 

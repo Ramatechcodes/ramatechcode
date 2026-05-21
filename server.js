@@ -21,19 +21,18 @@ app.post("/register", async (req, res) => {
         await db.collection("students").add(data);
 
         // Send email
-     const transporter = nodemailer.createTransport({
+   const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
-    port: 587,
+    port: 2525,
     secure: false,
     requireTLS: true,
     auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD
-    },
-   
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_PASS
+    }
 });
-       await transporter.sendMail({
-    from: `"Ramatechcode" <${process.env.EMAIL}>`,
+        await transporter.sendMail({
+    from: `"Ramatechcode Lab" <${process.env.EMAIL}>`,
     to: data.email,
     subject: "Welcome to Ramatechcode Lab 🚀",
     html: `

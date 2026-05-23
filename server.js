@@ -63,6 +63,7 @@ app.post("/register", async (req, res) => {
                 <li>Portfolio development</li>
                 <li>AI + Automation skills</li>
                 <li>Job-ready training</li>
+                 <li>How to get and work remotely</li>
             </ul>
 
             <p>

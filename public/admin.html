@@ -52,15 +52,20 @@ tr:nth-child(even){
 <table>
 
 <thead>
+
 <tr>
     <th>Full Name</th>
+    <th>Date of Birth</th>
+    <th>Nationality</th>
+    <th>Address</th>
+    <th>City</th>
     <th>Email</th>
     <th>Phone</th>
     <th>Interest</th>
     <th>Class</th>
     <th>Gender</th>
-    <th>City</th>
 </tr>
+
 </thead>
 
 <tbody id="tableBody"></tbody>
@@ -77,22 +82,26 @@ async function loadStudents(){
 
     let html = "";
 
-    students.forEach(student => {
+   students.forEach(student => {
 
-        html += `
-            <tr>
-                <td>${student.fullname || ""}</td>
-                <td>${student.email || ""}</td>
-                <td>${student.phone || ""}</td>
-                <td>${student.interest || ""}</td>
-                <td>${student.classOption || ""}</td>
-                <td>${student.gender || ""}</td>
-                <td>${student.city || ""}</td>
-            </tr>
-        `;
+    html += `
+        <tr>
 
-    });
+            <td>${student.fullname || ""}</td>
+            <td>${student.dob || ""}</td>
+            <td>${student.nationality || ""}</td>
+            <td>${student.address || ""}</td>
+            <td>${student.city || ""}</td>
+            <td>${student.email || ""}</td>
+            <td>${student.phone || ""}</td>
+            <td>${student.interest || ""}</td>
+            <td>${student.classOption || ""}</td>
+            <td>${student.gender || ""}</td>
 
+        </tr>
+    `;
+
+});
     document.getElementById("tableBody").innerHTML = html;
 }
 

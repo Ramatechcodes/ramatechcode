@@ -19,9 +19,11 @@ function verifyPin(req, res, next){
     const pin = req.headers["admin-pin"];
 
     if(pin !== ADMIN_PIN){
+
         return res.status(401).json({
             error: "Invalid Access PIN"
         });
+
     }
 
     next();

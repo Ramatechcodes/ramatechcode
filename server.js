@@ -19,7 +19,33 @@ app.post("/register", async (req, res) => {
 
         // Save to Firebase Firestore
         await db.collection("students").add(data);
+// GET ALL STUDENTS
+app.get("/students", async (req, res) => {
 
+    try {
+
+        const snapshot = await db.collection("students").get();
+
+        let students = [];
+
+        snapshot.forEach(doc => {
+            students.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+
+        res.json(students);
+
+    } catch (error) {
+
+        res.status(500).json({
+            error: error.message
+        });
+
+    }
+
+});
         // Send email
    const transporter = nodemailer.createTransport({
     host: "smtp-relay.brevo.com",

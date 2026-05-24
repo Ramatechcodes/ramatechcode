@@ -26,6 +26,28 @@ function verifyPin(req, res, next){
 
     next();
 }
+function generateWelcomeMessage(data){
+
+    return `
+🎉 Congratulations ${data.fullname}!
+
+We are pleased to inform you that your application for the FREE 3-Month Tech Training Program at RAMATECHCODE LAB AND TECH has been successfully accepted.
+
+You have been enrolled for:
+📚 Course: ${data.interest}
+💻 Class Option: ${data.classOption}
+
+📅 Class Start Date: Monday, 1st July 2026
+
+We hope you have received the confirmation email containing your class details and important information.
+
+Get ready to learn, grow, and build your future in tech with us. We are excited to have you onboard!
+
+For more inquiries, contact us on WhatsApp: +2349034689656
+
+Welcome to RAMATECHCODE LAB AND TECH 🚀
+`;
+}
 app.post("/register", async (req, res) => {
     try {
 

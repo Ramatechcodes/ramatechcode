@@ -239,14 +239,14 @@ if(!adminPin){
                     ${student.phone || ""}
                     <br><br>
 
-                    <a 
-href={`https://wa.me/234${student.phone.replace(/^0/, '')}
-                        target="_blank"
-                    >
-                        <button class="action-btn whatsapp-btn">
-                            WhatsApp
-                        </button>
-                    </a>
+<a 
+  href="https://wa.me/234${student.phone ? student.phone.replace(/^0/, '') : ''}"
+  target="_blank"
+>
+  <button class="action-btn whatsapp-btn">
+    WhatsApp
+  </button>
+</a>
                 </td>
 
                 <td>${student.interest || ""}</td>

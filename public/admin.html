@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Panel</title>
+<title>Admin Dashboard</title>
 
 <style>
 
 body{
+    margin:0;
     font-family:Arial;
     background:#0f172a;
     color:white;
@@ -16,14 +17,31 @@ body{
 }
 
 h1{
-    color:#38bdf8;
     text-align:center;
+    color:#38bdf8;
+}
+
+.search-box{
+    margin:20px 0;
+    text-align:center;
+}
+
+.search-box input{
+    width:300px;
+    max-width:90%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.table-container{
+    overflow-x:auto;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    margin-top:20px;
     background:#1e293b;
 }
 
@@ -43,11 +61,72 @@ tr:nth-child(even){
     background:#111827;
 }
 
+.action-btn{
+    padding:8px 12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    color:white;
+    margin:2px;
+    font-size:12px;
+}
+
+.delete-btn{
+    background:red;
+}
+
+.email-btn{
+    background:#0ea5e9;
+}
+
+.whatsapp-btn{
+    background:green;
+}
+
+.stats{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:12px;
+    flex:1;
+    min-width:200px;
+    text-align:center;
+}
+
+.card h2{
+    color:#38bdf8;
+}
+
 </style>
 </head>
 <body>
 
-<h1>Registered Students</h1>
+<h1>Ramatechcode Admin Dashboard</h1>
+
+<div class="stats">
+
+    <div class="card">
+        <h2 id="totalStudents">0</h2>
+        <p>Total Students</p>
+    </div>
+
+</div>
+
+<div class="search-box">
+    <input 
+        type="text" 
+        id="searchInput"
+        placeholder="Search student..."
+    >
+</div>
+
+<div class="table-container">
 
 <table>
 
@@ -55,7 +134,7 @@ tr:nth-child(even){
 
 <tr>
     <th>Full Name</th>
-    <th>Date of Birth</th>
+    <th>DOB</th>
     <th>Nationality</th>
     <th>Address</th>
     <th>City</th>
@@ -64,6 +143,7 @@ tr:nth-child(even){
     <th>Interest</th>
     <th>Class</th>
     <th>Gender</th>
+    <th>Actions</th>
 </tr>
 
 </thead>
@@ -72,38 +152,167 @@ tr:nth-child(even){
 
 </table>
 
+</div>
+
 <script>
 
+let allStudents = [];
+    const adminPin = prompt("Enter Admin Access PIN");
+
+const adminPin = prompt("Enter Admin Access PIN");
+
+if(!adminPin){
+
+    alert("PIN Required");
+
+    document.body.innerHTML =
+    "<h1 style='color:red;text-align:center'>Access Denied</h1>";
+
+    throw new Error("Access denied");
+}
 async function loadStudents(){
 
-    const response = await fetch("/students");
+  const response = await fetch("/students", {
+    headers:{
+        "admin-pin": adminPin
+    }
+});
 
     const students = await response.json();
 
+    allStudents = students;
+
+    document.getElementById("totalStudents")
+    .innerText = students.length;
+
+    renderStudents(students);
+}
+
+function renderStudents(students){
+
     let html = "";
 
-   students.forEach(student => {
+    students.forEach(student => {
 
-    html += `
-        <tr>
+        html += `
+            <tr>
 
-            <td>${student.fullname || ""}</td>
-            <td>${student.dob || ""}</td>
-            <td>${student.nationality || ""}</td>
-            <td>${student.address || ""}</td>
-            <td>${student.city || ""}</td>
-            <td>${student.email || ""}</td>
-            <td>${student.phone || ""}</td>
-            <td>${student.interest || ""}</td>
-            <td>${student.classOption || ""}</td>
-            <td>${student.gender || ""}</td>
+                <td>${student.fullname || ""}</td>
+                <td>${student.dob || ""}</td>
+                <td>${student.nationality || ""}</td>
+                <td>${student.address || ""}</td>
+                <td>${student.city || ""}</td>
 
-        </tr>
-    `;
+                <td>
+                    ${student.email || ""}
+                    <br><br>
 
-});
+                    <a 
+                        href="mailto:${student.email}"
+                        target="_blank"
+                    >
+                        <button class="action-btn email-btn">
+                            Send Email
+                        </button>
+                    </a>
+                </td>
+
+                <td>
+                    ${student.phone || ""}
+                    <br><br>
+
+                    <a 
+href="https://wa.me/234${student.phone.replace(/^0/, '')}"
+                        target="_blank"
+                    >
+                        <button class="action-btn whatsapp-btn">
+                            WhatsApp
+                        </button>
+                    </a>
+                </td>
+
+                <td>${student.interest || ""}</td>
+                <td>${student.classOption || ""}</td>
+                <td>${student.gender || ""}</td>
+
+                <td>
+
+                    <button 
+                        class="action-btn delete-btn"
+                        onclick="deleteStudent('${student.id}')"
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+
+    });
+
     document.getElementById("tableBody").innerHTML = html;
 }
+
+async function deleteStudent(id){
+
+    const confirmDelete = confirm(
+        "Delete this student?"
+    );
+
+    if(!confirmDelete) return;
+
+   await fetch(`/students/${id}`, {
+    method:"DELETE",
+    headers:{
+        "admin-pin": adminPin
+    }
+});
+
+    loadStudents();
+}
+
+
+// SEARCH
+
+document.getElementById("searchInput")
+.addEventListener("input", function(){
+
+    const value = this.value.toLowerCase();
+
+    const filtered = allStudents.filter(student => {
+
+        return (
+
+            (student.fullname || "")
+            .toLowerCase()
+            .includes(value)
+
+            ||
+
+            (student.email || "")
+            .toLowerCase()
+            .includes(value)
+
+            ||
+
+            (student.phone || "")
+            .toLowerCase()
+            .includes(value)
+
+            ||
+
+            (student.interest || "")
+            .toLowerCase()
+            .includes(value)
+
+        );
+
+    });
+
+    renderStudents(filtered);
+
+});
 
 loadStudents();
 

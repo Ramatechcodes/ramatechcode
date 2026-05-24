@@ -169,6 +169,7 @@ if(!adminPin){
 
     throw new Error("Access denied");
 }
+    
   async function loadStudents(){
 
     try{
@@ -206,11 +207,45 @@ if(!adminPin){
         alert("Failed to load students");
     }
 }
-    function renderStudents(students){
+    function getWelcomeMessage(student) {
+    return `
+🎉 Congratulations ${student.fullname}!
+
+We are pleased to inform you that your application for the FREE 3-Month Tech Training Program at RAMATECHCODE LAB AND TECH has been successfully accepted.
+
+You have been enrolled for:
+📚 Course: ${student.interest}
+💻 Class Type: ${student.classOption}
+
+📅 Class Start Date: Monday, 1st July 2026
+
+We hope you have received your confirmation details.
+
+Get ready to learn, grow, and build your future in tech with us.
+
+For inquiries, contact us on WhatsApp: +2349034689656
+
+Welcome to RAMATECHCODE LAB 🚀
+    `.trim();
+}
+   function renderStudents(students){
 
     let html = "";
 
     students.forEach(student => {
+
+        const message = encodeURIComponent(getWelcomeMessage(student));
+
+        const phone = student.phone
+            ? student.phone.replace(/^0/, '')
+            : "";
+
+        const waLink = `https://wa.me/234${phone}?text=${message}`;
+
+        const emailSubject = encodeURIComponent("Welcome to Ramatechcode Lab 🚀");
+        const emailBody = encodeURIComponent(getWelcomeMessage(student));
+
+        const mailLink = `mailto:${student.email}?subject=${emailSubject}&body=${emailBody}`;
 
         html += `
             <tr>
@@ -222,13 +257,9 @@ if(!adminPin){
                 <td>${student.city || ""}</td>
 
                 <td>
-                    ${student.email || ""}
-                    <br><br>
+                    ${student.email || ""}<br><br>
 
-                    <a 
-                        href="mailto:${student.email}"
-                        target="_blank"
-                    >
+                    <a href="${mailLink}" target="_blank">
                         <button class="action-btn email-btn">
                             Send Email
                         </button>
@@ -236,17 +267,13 @@ if(!adminPin){
                 </td>
 
                 <td>
-                    ${student.phone || ""}
-                    <br><br>
+                    ${student.phone || ""}<br><br>
 
-<a 
-  href="https://wa.me/234${student.phone ? student.phone.replace(/^0/, '') : ''}"
-  target="_blank"
->
-  <button class="action-btn whatsapp-btn">
-    WhatsApp
-  </button>
-</a>
+                    <a href="${waLink}" target="_blank">
+                        <button class="action-btn whatsapp-btn">
+                            WhatsApp
+                        </button>
+                    </a>
                 </td>
 
                 <td>${student.interest || ""}</td>
@@ -254,24 +281,20 @@ if(!adminPin){
                 <td>${student.gender || ""}</td>
 
                 <td>
-
                     <button 
                         class="action-btn delete-btn"
                         onclick="deleteStudent('${student.id}')"
                     >
                         Delete
                     </button>
-
                 </td>
 
             </tr>
         `;
-
     });
 
     document.getElementById("tableBody").innerHTML = html;
 }
-
 async function deleteStudent(id){
 
     const confirmDelete = confirm(

@@ -1,1 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Admin Panel</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#0f172a;
+    color:white;
+    padding:20px;
+}
+
+h1{
+    color:#38bdf8;
+    text-align:center;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    background:#1e293b;
+}
+
+th, td{
+    padding:12px;
+    border:1px solid #334155;
+    text-align:left;
+    font-size:14px;
+}
+
+th{
+    background:#38bdf8;
+    color:black;
+}
+
+tr:nth-child(even){
+    background:#111827;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Registered Students</h1>
+
+<table>
+
+<thead>
+<tr>
+    <th>Full Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Interest</th>
+    <th>Class</th>
+    <th>Gender</th>
+    <th>City</th>
+</tr>
+</thead>
+
+<tbody id="tableBody"></tbody>
+
+</table>
+
+<script>
+
+async function loadStudents(){
+
+    const response = await fetch("/students");
+
+    const students = await response.json();
+
+    let html = "";
+
+    students.forEach(student => {
+
+        html += `
+            <tr>
+                <td>${student.fullname || ""}</td>
+                <td>${student.email || ""}</td>
+                <td>${student.phone || ""}</td>
+                <td>${student.interest || ""}</td>
+                <td>${student.classOption || ""}</td>
+                <td>${student.gender || ""}</td>
+                <td>${student.city || ""}</td>
+            </tr>
+        `;
+
+    });
+
+    document.getElementById("tableBody").innerHTML = html;
+}
+
+loadStudents();
+
+</script>
+
+</body>
+</html>

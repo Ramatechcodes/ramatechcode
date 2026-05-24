@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-const ADMIN_PIN = "Ramadan@14";
-require("dotenv").config();
+const ADMIN_PIN = process.env.ADMIN_PIN;
+
 
 const db = require("./firebase");
 

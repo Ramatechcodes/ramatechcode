@@ -241,21 +241,7 @@ function renderStudents(students){
                     <br><br>
 
                     <a 
-href={`https://wa.me/234${student.phone.replace(/^0/, '')}?text=${encodeURIComponent(
-`🎉 Congratulations ${student.fullname}!
-
-We are pleased to inform you that your application for the FREE 3-Month Tech Training Program at RAMATECHCODE LAB AND TECH has been successfully accepted.
-
-You have been enrolled for:
-📚 Course: ${student.interest}
-💻 Class Option: ${student.classOption}
-
-📅 Class Start Date: Monday, 1st July 2026
-
-We are excited to have you onboard!
-
-RAMATECHCODE LAB AND TECH 🚀`
-)}`}
+href={`https://wa.me/234${student.phone.replace(/^0/, '')}
                         target="_blank"
                     >
                         <button class="action-btn whatsapp-btn">

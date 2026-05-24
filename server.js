@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const ADMIN_PIN = "Ramadan@14";
 require("dotenv").config();
 
 const db = require("./firebase");
@@ -11,7 +12,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
+// ADMIN AUTH MIDDLEWARE
+function verifyPin(req, res, next){
 
+    const pin = req.headers["admin-pin"];
+
+    if(pin !== ADMIN_PIN){
+        return res.status(401).json({
+            error: "Invalid Access PIN"
+        });
+    }
+
+    next();
+}
 app.post("/register", async (req, res) => {
     try {
 
@@ -85,7 +98,7 @@ app.post("/register", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-app.get("/students", async (req, res) => {
+app.get("/students", verifyPin, async (req, res) => {
 
     try {
 
@@ -111,7 +124,27 @@ app.get("/students", async (req, res) => {
     }
 
 });
+app.delete("/students/:id", verifyPin, async (req, res) => {
 
+    try {
+
+        await db.collection("students")
+        .doc(req.params.id)
+        .delete();
+
+        res.json({
+            message: "Student deleted"
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            error: error.message
+        });
+
+    }
+
+});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

@@ -149,6 +149,86 @@ app.delete("/students/:id", verifyPin, async (req, res) => {
     }
 
 });
+app.post("/send-bulk-email", verifyPin, async (req, res) => {
+
+    try{
+
+        const { subject, message } = req.body;
+
+        // GET ALL STUDENTS
+        const snapshot = await db.collection("students").get();
+
+        // EXTRACT EMAILS
+        const emails = [];
+
+        snapshot.forEach(doc => {
+
+            const data = doc.data();
+
+            if(data.email){
+                emails.push(data.email);
+            }
+
+        });
+
+        // REMOVE DUPLICATE EMAILS
+        const uniqueEmails = [...new Set(emails)];
+
+        // EMAIL TRANSPORTER
+        const transporter = nodemailer.createTransport({
+            host: "smtp-relay.brevo.com",
+            port: 2525,
+            secure: false,
+            requireTLS: true,
+            auth: {
+                user: process.env.BREVO_USER,
+                pass: process.env.BREVO_PASS
+            }
+        });
+
+        // SEND EMAIL
+        await transporter.sendMail({
+
+            from: `"Ramatechcode Lab" <${process.env.EMAIL}>`,
+
+            // YOUR EMAIL HERE
+            to: process.env.EMAIL,
+
+            // ALL STUDENTS HIDDEN
+            bcc: uniqueEmails,
+
+            subject: subject,
+
+            html: `
+                <div style="font-family:Arial;padding:20px;line-height:1.7">
+
+                    ${message}
+
+                    <br><br>
+
+                    <hr>
+
+                    <p style="color:gray">
+                        Ramatechcode Lab 🚀
+                    </p>
+
+                </div>
+            `
+        });
+
+        res.json({
+            message: `Email sent to ${uniqueEmails.length} students`
+        });
+
+    }catch(error){
+
+        res.status(500).json({
+            error: error.message
+        });
+
+    }
+
+});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

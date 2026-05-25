@@ -125,7 +125,34 @@ tr:nth-child(even){
         placeholder="Search student..."
     >
 </div>
+<div class="card" style="margin-bottom:20px;">
 
+    <h2>Send Email To All Students</h2>
+
+    <input 
+        type="text"
+        id="bulkSubject"
+        placeholder="Email Subject"
+        style="width:100%;padding:12px;margin-bottom:10px;border:none;border-radius:8px;"
+    >
+
+    <textarea
+        id="bulkMessage"
+        placeholder="Write your message..."
+        style="width:100%;height:200px;padding:12px;border:none;border-radius:8px;"
+    ></textarea>
+
+    <br><br>
+
+    <button 
+        onclick="sendBulkEmail()"
+        class="action-btn email-btn"
+        style="padding:14px 20px;font-size:16px;"
+    >
+        Send To All Students
+    </button>
+
+</div>
 <div class="table-container">
 
 <table>
@@ -313,7 +340,56 @@ async function deleteStudent(id){
     loadStudents();
 }
 
+async function sendBulkEmail(){
 
+    const subject = document.getElementById("bulkSubject").value;
+
+    const message = document.getElementById("bulkMessage").value;
+
+    if(!subject || !message){
+
+        alert("Please fill all fields");
+
+        return;
+    }
+
+    const confirmSend = confirm(
+        "Send this email to ALL students?"
+    );
+
+    if(!confirmSend) return;
+
+    try{
+
+        const response = await fetch("/send-bulk-email", {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json",
+                "admin-pin": adminPin
+            },
+
+            body: JSON.stringify({
+                subject,
+                message
+            })
+
+        });
+
+        const result = await response.json();
+
+        alert(result.message || result.error);
+
+    }catch(error){
+
+        console.log(error);
+
+        alert("Failed to send email");
+
+    }
+
+}
 // SEARCH
 
 document.getElementById("searchInput")

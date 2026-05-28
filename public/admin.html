@@ -160,6 +160,7 @@ tr:nth-child(even){
 <thead>
 
 <tr>
+    <th>No</th>
     <th>Full Name</th>
     <th>DOB</th>
     <th>Nationality</th>
@@ -259,7 +260,7 @@ Welcome to RAMATECHCODE LAB 🚀
 
     let html = "";
 
-    students.forEach(student => {
+   students.forEach((student, index) => {
 
         const message = encodeURIComponent(getWelcomeMessage(student));
 
@@ -276,6 +277,7 @@ Welcome to RAMATECHCODE LAB 🚀
 
         html += `
             <tr>
+            <td>${index + 1}</td>
 
                 <td>${student.fullname || ""}</td>
                 <td>${student.dob || ""}</td>

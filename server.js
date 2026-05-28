@@ -34,8 +34,29 @@ app.post("/register", async (req, res) => {
 
         const data = req.body;
 
-        // Save to Firebase Firestore
-        await db.collection("students").add(data);
+        
+        // CHECK IF EMAIL ALREADY EXISTS
+const emailCheck = await db
+.collection("students")
+.where("email", "==", data.email)
+.get();
+
+// CHECK IF PHONE ALREADY EXISTS
+const phoneCheck = await db
+.collection("students")
+.where("phone", "==", data.phone)
+.get();
+
+if (!emailCheck.empty || !phoneCheck.empty) {
+
+    return res.status(400).json({
+        error: "This applicant has already registered"
+    });
+
+}
+
+// SAVE NEW STUDENT
+await db.collection("students").add(data);
 // GET ALL STUDENTS
         // Send email
    const transporter = nodemailer.createTransport({
@@ -110,13 +131,25 @@ app.get("/students", verifyPin, async (req, res) => {
 
         let students = [];
 
-        snapshot.forEach(doc => {
-            students.push({
-                id: doc.id,
-                ...doc.data()
-            });
-        });
+const seenEmails = new Set();
 
+snapshot.forEach(doc => {
+
+    const student = {
+        id: doc.id,
+        ...doc.data()
+    };
+
+    // SKIP DUPLICATE EMAILS
+    if(seenEmails.has(student.email)){
+        return;
+    }
+
+    seenEmails.add(student.email);
+
+    students.push(student);
+
+});
         res.json(students);
 
     } catch (error) {

@@ -583,7 +583,7 @@ input, select{
 
     <div class="highlight-box">
 
-        <h2>Become a Tech Professional in 3 Months</h2>
+        <h2>Become a Tech Professional within just a Month</h2>
 
         <p>
             Do you aspire to become a Software Engineer, Web Developer, App Developer,
@@ -591,7 +591,7 @@ input, select{
         </p>
 
         <p>
-            Join our <b>FREE 7 days  Intensive Training</b> (Physical + Virtual)
+            Join our <b>FREE 30 days  Intensive Training</b> (Physical + Virtual)
             and start building real-world projects from day one.
         </p>
  <button class="" onclick="scrollToForm()">
@@ -697,7 +697,6 @@ input, select{
                 <option>Robotics Programming</option>
                 <option>Mobile App Development</option>
                 <option>Digital Marketing</option>
-                  <option>Virtual Assistant </option>
             </select>
 
             <select id="classOption" required>
@@ -771,7 +770,6 @@ setInterval(() => {
 }, 3000);
 document.getElementById("registerForm")
 .addEventListener("submit", async (e) => {
-
     e.preventDefault();
 
     const data = {
@@ -788,7 +786,6 @@ document.getElementById("registerForm")
     };
 
     try {
-
         const response = await fetch("/register", {
             method: "POST",
             headers: {
@@ -799,13 +796,17 @@ document.getElementById("registerForm")
 
         const result = await response.json();
 
-        alert(result.message || result.error);
+        if (result.redirectUrl) {
+            alert(result.message);
+            // Seamlessly redirect to Flutterwave Payment Gateway page
+            window.location.href = result.redirectUrl; 
+        } else {
+            alert(result.error || "Registration failed. Unexpected response.");
+        }
 
     } catch (error) {
-
         console.log(error);
-
-        alert("Registration failed");
+        alert("Registration pipeline dropped due to network issues.");
     }
 });
    </script>

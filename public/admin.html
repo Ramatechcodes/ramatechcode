@@ -3,106 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Admin Dashboard</title>
-
 <style>
+body{ margin:0; font-family:Arial; background:#0f172a; color:white; padding:20px; }
+h1{ text-align:center; color:#38bdf8; }
+.search-box{ margin:20px 0; text-align:center; }
+.search-box input{ width:300px; max-width:90%; padding:12px; border:none; border-radius:8px; font-size:16px; }
+.table-container{ overflow-x:auto; }
+table{ width:100%; border-collapse:collapse; background:#1e293b; }
+th, td{ padding:12px; border:1px solid #334155; text-align:left; font-size:14px; }
+th{ background:#38bdf8; color:black; }
+tr:nth-child(even){ background:#111827; }
+.action-btn{ padding:8px 12px; border:none; border-radius:6px; cursor:pointer; color:white; margin:2px; font-size:12px; }
+.delete-btn{ background:red; }
+.email-btn{ background:#0ea5e9; }
+.whatsapp-btn{ background:green; }
+.stats{ display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px; }
+.card{ background:#1e293b; padding:20px; border-radius:12px; flex:1; min-width:200px; text-align:center; }
+.card h2{ color:#38bdf8; }
 
-body{
-    margin:0;
-    font-family:Arial;
-    background:#0f172a;
-    color:white;
-    padding:20px;
-}
-
-h1{
-    text-align:center;
-    color:#38bdf8;
-}
-
-.search-box{
-    margin:20px 0;
-    text-align:center;
-}
-
-.search-box input{
-    width:300px;
-    max-width:90%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
-}
-
-.table-container{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:#1e293b;
-}
-
-th, td{
-    padding:12px;
-    border:1px solid #334155;
-    text-align:left;
-    font-size:14px;
-}
-
-th{
-    background:#38bdf8;
-    color:black;
-}
-
-tr:nth-child(even){
-    background:#111827;
-}
-
-.action-btn{
-    padding:8px 12px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-    color:white;
-    margin:2px;
-    font-size:12px;
-}
-
-.delete-btn{
-    background:red;
-}
-
-.email-btn{
-    background:#0ea5e9;
-}
-
-.whatsapp-btn{
-    background:green;
-}
-
-.stats{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
-}
-
-.card{
-    background:#1e293b;
-    padding:20px;
-    border-radius:12px;
-    flex:1;
-    min-width:200px;
-    text-align:center;
-}
-
-.card h2{
-    color:#38bdf8;
-}
-
+/* Status Labels Styling badges */
+.status-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; text-transform: uppercase; }
+.status-paid { background-color: #10b981; color: white; }
+.status-pending { background-color: #f59e0b; color: white; }
 </style>
 </head>
 <body>
@@ -110,58 +33,37 @@ tr:nth-child(even){
 <h1>Ramatechcode Admin Dashboard</h1>
 
 <div class="stats">
-
     <div class="card">
         <h2 id="totalStudents">0</h2>
         <p>Total Students</p>
     </div>
-
+    <div class="card" style="border: 1px solid #10b981;">
+        <h2 id="totalRevenue" style="color: #10b981;">₦0</h2>
+        <p>Total Revenue Collected</p>
+    </div>
 </div>
 
 <div class="search-box">
-    <input 
-        type="text" 
-        id="searchInput"
-        placeholder="Search student..."
-    >
+    <input type="text" id="searchInput" placeholder="Search student...">
 </div>
+
 <div class="card" style="margin-bottom:20px;">
-
     <h2>Send Email To All Students</h2>
-
-    <input 
-        type="text"
-        id="bulkSubject"
-        placeholder="Email Subject"
-        style="width:100%;padding:12px;margin-bottom:10px;border:none;border-radius:8px;"
-    >
-
-    <textarea
-        id="bulkMessage"
-        placeholder="Write your message..."
-        style="width:100%;height:200px;padding:12px;border:none;border-radius:8px;"
-    ></textarea>
-
+    <input type="text" id="bulkSubject" placeholder="Email Subject" style="width:100%;padding:12px;margin-bottom:10px;border:none;border-radius:8px;">
+    <textarea id="bulkMessage" placeholder="Write your message..." style="width:100%;height:200px;padding:12px;border:none;border-radius:8px;"></textarea>
     <br><br>
-
-    <button 
-        onclick="sendBulkEmail()"
-        class="action-btn email-btn"
-        style="padding:14px 20px;font-size:16px;"
-    >
+    <button onclick="sendBulkEmail()" class="action-btn email-btn" style="padding:14px 20px;font-size:16px;">
         Send To All Students
     </button>
-
 </div>
+
 <div class="table-container">
-
 <table>
-
 <thead>
-
 <tr>
     <th>No</th>
-    <th>Full Name</th>
+    <th>Reg Date</th>
+    <th>Payment Status</th> <th>Full Name</th>
     <th>DOB</th>
     <th>Nationality</th>
     <th>Address</th>
@@ -173,113 +75,80 @@ tr:nth-child(even){
     <th>Gender</th>
     <th>Actions</th>
 </tr>
-
 </thead>
-
 <tbody id="tableBody"></tbody>
-
 </table>
-
 </div>
 
 <script>
-
 let allStudents = [];
-
 const adminPin = prompt("Enter Admin Access PIN");
 
 if(!adminPin){
-
     alert("PIN Required");
-
-    document.body.innerHTML =
-    "<h1 style='color:red;text-align:center'>Access Denied</h1>";
-
+    document.body.innerHTML = "<h1 style='color:red;text-align:center'>Access Denied</h1>";
     throw new Error("Access denied");
 }
     
-  async function loadStudents(){
-
+async function loadStudents(){
     try{
-
         const response = await fetch("/students", {
-            headers:{
-                "admin-pin": adminPin
-            }
+            headers:{ "admin-pin": adminPin }
         });
 
-        // CHECK INVALID PIN
         if(response.status === 401){
-
             alert("Invalid PIN");
-
-            document.body.innerHTML =
-            "<h1 style='color:red;text-align:center'>Access Denied</h1>";
-
+            document.body.innerHTML = "<h1 style='color:red;text-align:center'>Access Denied</h1>";
             return;
         }
 
-        const students = await response.json();
+        const data = await response.json();
 
-        allStudents = students;
+        // Extract destructuring mappings from endpoint wrapper data schema
+        allStudents = data.students;
 
-        document.getElementById("totalStudents")
-        .innerText = students.length;
+        document.getElementById("totalStudents").innerText = data.students.length;
+        document.getElementById("totalRevenue").innerText = "₦" + data.totalRevenue.toLocaleString();
 
-        renderStudents(students);
-
+        renderStudents(data.students);
     }catch(error){
-
-        console.log(error);
-
-        alert("Failed to load students");
+        console.error(error);
+        alert("Failed to load student profiles");
     }
 }
-    function getWelcomeMessage(student) {
-    return `
-🎉 Congratulations ${student.fullname}!
 
-We are pleased to inform you that your application for the FREE 3-Month Tech Training Program at RAMATECHCODE LAB AND TECH has been successfully accepted.
-
-You have been enrolled for:
-📚 Course: ${student.interest}
-💻 Class Type: ${student.classOption}
-
-📅 Class Start Date: Monday, 1st July 2026
-
-We hope you have received your confirmation details.
-
-Get ready to learn, grow, and build your future in tech with us.
-
-For inquiries, contact us on WhatsApp: +2349034689656
-
-Welcome to RAMATECHCODE LAB 🚀
-    `.trim();
+function getWelcomeMessage(student) {
+    return `🎉 Congratulations ${student.fullname}!\n\nYour program registration details have been verified.\nCourse: ${student.interest}\nClass Type: ${student.classOption}\nWelcome to RAMATECHCODE LAB 🚀`.trim();
 }
-   function renderStudents(students){
 
+function renderStudents(students){
     let html = "";
 
-   students.forEach((student, index) => {
-
+    students.forEach((student, index) => {
         const message = encodeURIComponent(getWelcomeMessage(student));
-
-        const phone = student.phone
-            ? student.phone.replace(/^0/, '')
-            : "";
-
+        const phone = student.phone ? student.phone.replace(/^0/, '') : "";
         const waLink = `https://wa.me/234${phone}?text=${message}`;
-
+        
         const emailSubject = encodeURIComponent("Welcome to Ramatechcode Lab 🚀");
         const emailBody = encodeURIComponent(getWelcomeMessage(student));
-
         const mailLink = `mailto:${student.email}?subject=${emailSubject}&body=${emailBody}`;
+
+        let formattedDate = "N/A";
+        if (student.createdAt) {
+            const d = new Date(student.createdAt);
+            formattedDate = d.toLocaleDateString() + " " + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        // Setup status badge classes contextual markers
+        const isPaid = student.paymentStatus === "paid";
+        const badgeClass = isPaid ? "status-badge status-paid" : "status-badge status-pending";
+        const displayStatus = isPaid ? "Paid" : "Pending";
 
         html += `
             <tr>
-            <td>${index + 1}</td>
-
-                <td>${student.fullname || ""}</td>
+                <td>${index + 1}</td>
+                <td style="color:#94a3b8; font-size:12px;">${formattedDate}</td>
+                <td><span class="${badgeClass}">${displayStatus}</span></td> <td>${student.fullname || ""}</td>
                 <td>${student.dob || ""}</td>
                 <td>${student.nationality || ""}</td>
                 <td>${student.address || ""}</td>
@@ -287,21 +156,15 @@ Welcome to RAMATECHCODE LAB 🚀
 
                 <td>
                     ${student.email || ""}<br><br>
-
                     <a href="${mailLink}" target="_blank">
-                        <button class="action-btn email-btn">
-                            Send Email
-                        </button>
+                        <button class="action-btn email-btn">Send Email</button>
                     </a>
                 </td>
 
                 <td>
                     ${student.phone || ""}<br><br>
-
                     <a href="${waLink}" target="_blank">
-                        <button class="action-btn whatsapp-btn">
-                            WhatsApp
-                        </button>
+                        <button class="action-btn whatsapp-btn">WhatsApp</button>
                     </a>
                 </td>
 
@@ -310,132 +173,67 @@ Welcome to RAMATECHCODE LAB 🚀
                 <td>${student.gender || ""}</td>
 
                 <td>
-                    <button 
-                        class="action-btn delete-btn"
-                        onclick="deleteStudent('${student.id}')"
-                    >
-                        Delete
-                    </button>
+                    <button class="action-btn delete-btn" onclick="deleteStudent('${student.id}')">Delete</button>
                 </td>
-
             </tr>
         `;
     });
 
     document.getElementById("tableBody").innerHTML = html;
 }
+
 async function deleteStudent(id){
-
-    const confirmDelete = confirm(
-        "Delete this student?"
-    );
-
+    const confirmDelete = confirm("Delete this student?");
     if(!confirmDelete) return;
 
-   await fetch(`/students/${id}`, {
-    method:"DELETE",
-    headers:{
-        "admin-pin": adminPin
-    }
-});
-
+    await fetch(`/students/${id}`, {
+        method:"DELETE",
+        headers:{ "admin-pin": adminPin }
+    });
     loadStudents();
 }
 
 async function sendBulkEmail(){
-
     const subject = document.getElementById("bulkSubject").value;
-
     const message = document.getElementById("bulkMessage").value;
 
     if(!subject || !message){
-
         alert("Please fill all fields");
-
         return;
     }
 
-    const confirmSend = confirm(
-        "Send this email to ALL students?"
-    );
-
+    const confirmSend = confirm("Send this email to ALL students?");
     if(!confirmSend) return;
 
     try{
-
         const response = await fetch("/send-bulk-email", {
-
             method:"POST",
-
-            headers:{
-                "Content-Type":"application/json",
-                "admin-pin": adminPin
-            },
-
-            body: JSON.stringify({
-                subject,
-                message
-            })
-
+            headers:{ "Content-Type":"application/json", "admin-pin": adminPin },
+            body: JSON.stringify({ subject, message })
         });
 
         const result = await response.json();
-
         alert(result.message || result.error);
-
     }catch(error){
-
-        console.log(error);
-
         alert("Failed to send email");
-
     }
-
 }
-// SEARCH
 
-document.getElementById("searchInput")
-.addEventListener("input", function(){
-
+// SEARCH UTILITY
+document.getElementById("searchInput").addEventListener("input", function(){
     const value = this.value.toLowerCase();
-
     const filtered = allStudents.filter(student => {
-
         return (
-
-            (student.fullname || "")
-            .toLowerCase()
-            .includes(value)
-
-            ||
-
-            (student.email || "")
-            .toLowerCase()
-            .includes(value)
-
-            ||
-
-            (student.phone || "")
-            .toLowerCase()
-            .includes(value)
-
-            ||
-
-            (student.interest || "")
-            .toLowerCase()
-            .includes(value)
-
+            (student.fullname || "").toLowerCase().includes(value) ||
+            (student.email || "").toLowerCase().includes(value) ||
+            (student.phone || "").toLowerCase().includes(value) ||
+            (student.interest || "").toLowerCase().includes(value)
         );
-
     });
-
     renderStudents(filtered);
-
 });
 
 loadStudents();
-
 </script>
-
 </body>
 </html>

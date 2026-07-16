@@ -45,12 +45,12 @@ app.post("/register", async (req, res) => {
         // -------------------------------------------------------------
         // DUPLICATION CHECK: Validate Email and Phone uniqueness
         // -------------------------------------------------------------
-        const emailCheck = await db.collection("students")
+        const emailCheck = await db.collection("student")
             .where("email", "==", data.email.trim())
             .where("paymentStatus", "==", "paid")
             .get();
 
-        const phoneCheck = await db.collection("students")
+        const phoneCheck = await db.collection("student")
             .where("phone", "==", data.phone.trim())
             .where("paymentStatus", "==", "paid")
             .get();
@@ -96,7 +96,7 @@ app.post("/register", async (req, res) => {
 
         if (response.data.status === "success") {
             // Save data with a default "pending" status
-            await db.collection("students").add({
+            await db.collection("student").add({
                 ...data,
                 paymentStatus: "pending",
                 amountPaid: 0,
@@ -136,7 +136,7 @@ app.get("/payment-callback", async (req, res) => {
 
         if (response.data.status === "success" && flwData.status === "successful" && flwData.amount >= 2500) {
             
-            const studentQuery = await db.collection("students").where("tx_ref", "==", tx_ref).limit(1).get();
+            const studentQuery = await db.collection("student").where("tx_ref", "==", tx_ref).limit(1).get();
 
             if (!studentQuery.empty) {
                 const docRef = studentQuery.docs[0].ref;
@@ -197,7 +197,7 @@ app.get("/payment-callback", async (req, res) => {
 // ==========================================
 app.get("/students", verifyPin, async (req, res) => {
     try {
-        const snapshot = await db.collection("students").orderBy("createdAt", "desc").get();
+        const snapshot = await db.collection("student").orderBy("createdAt", "desc").get();
         let students = [];
         let totalRevenue = 0;
 
@@ -223,7 +223,7 @@ app.get("/students", verifyPin, async (req, res) => {
 // REMAINING PORTS
 app.delete("/students/:id", verifyPin, async (req, res) => {
     try {
-        await db.collection("students").doc(req.params.id).delete();
+        await db.collection("student").doc(req.params.id).delete();
         res.json({ message: "Student deleted" });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
@@ -231,7 +231,7 @@ app.delete("/students/:id", verifyPin, async (req, res) => {
 app.post("/send-bulk-email", verifyPin, async (req, res) => {
     try {
         const { subject, message } = req.body;
-        const snapshot = await db.collection("students").get();
+        const snapshot = await db.collection("student").get();
         const emails = [];
 
         snapshot.forEach(doc => {
